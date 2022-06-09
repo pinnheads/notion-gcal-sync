@@ -3,6 +3,8 @@ import os
 
 import requests as req
 
+from properties import Properties
+
 
 def print_in_console(url, response, req_body=None):
     print(f"Endpoint Url -----> {url}")
@@ -13,19 +15,13 @@ def print_in_console(url, response, req_body=None):
     print(f"Response -----> {response}")
 
 
-class Signals:
+class Signals(Properties):
     """
     Sends different type of requests and provides json responses
     """
+
     def __init__(self):
-        self.notion_base_url = "https://api.notion.com/v1"
-        self.auth_token = os.getenv("BEARER_TOKEN")
-        self.notion_headers = {
-            "Accept": "application/json",
-            "Notion-Version": "2022-02-22",
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.auth_token}"
-        }
+        Properties.__init__(self)
 
     def send_request(self, endpoint_url, request_type, request_body=None):
         type_of_req = request_type.upper()

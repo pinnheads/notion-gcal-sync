@@ -9,6 +9,8 @@
 # from beautiful_date import Jan, Apr, Jun
 
 from notion.db import DB
+from notion.page import Page
+
 # from notion.notion import Notion
 
 
@@ -25,4 +27,5 @@ from notion.db import DB
 # print(response.id)
 
 db = DB()
+page = Page()
 # db.update_db(db_id=db.id, db_schema=)

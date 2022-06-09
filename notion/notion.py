@@ -3,31 +3,13 @@ import requests as req
 import json
 
 from notion.db import DB
-from notion.filters import Filters
+from properties import Properties
 
 
-class Notion:
+class Notion(Properties, DB):
     def __init__(self):
-        self.filters = Filters()
-        self.db = DB()
-        self.endpoint_url = "https://api.notion.com/v1/databases"
-        self.auth_token = os.getenv("BEARER_TOKEN")
-        self.headers = {
-            "Accept": "application/json",
-            "Notion-Version": "2022-02-22",
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.auth_token}"
-        }
-        self.page_id = os.getenv("PAGE_ID")
-        self.db_id = self.db.get_db_id()
-        self.new_event_filter = {"filter": self.filters.new_event()}
-        self.update_event_filter = {"filter": self.filters.update_event()}
-        self.delete_event_filter = {"filter": self.filters.delete_event()}
-
-    def query_db(self, event_filter):
-        response = req.post(url=self.endpoint_url + f"/{self.db_id}/query", headers=self.headers,
-                            json=event_filter)
-        return response.json()
+        DB.__init__(self)
+        Properties.__init__(self)
 
     def get_events(self, event_type: str):
         if event_type.lower() == "new":
@@ -39,5 +21,3 @@ class Notion:
         else:
             raise ValueError
 
-    def update_event(self, body):
-        response = req.patch(url=self.endpoint_url)

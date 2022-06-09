@@ -34,3 +34,10 @@ class DB(Signals, Properties):
                 return db_id.read()
         except FileNotFoundError:
             return self.create_db()['id'].replace('-', '')
+
+    def query_db(self, query_filter, db_id):
+        return self.send_request(
+            endpoint_url=self.notion_database_url+f"/{db_id}/query",
+            request_type="post",
+            request_body=query_filter
+        )

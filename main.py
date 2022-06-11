@@ -1,21 +1,17 @@
-# from gcsa.event import Event
-# import os
-#
-#
-# from req_helper import Signals
-# from gcsa.google_calendar import GoogleCalendar
-# from gcsa.recurrence import Recurrence, DAILY, SU, SA
-# # Event color - 1-11
-# from beautiful_date import Jan, Apr, Jun
+import os
+from gcsa.google_calendar import GoogleCalendar
 
+from gcal import TaskToEvent
 from notion.db import DB
+from notion.notion import Notion, create_event_from_tasks
 from notion.page import Page
 
-# from notion.notion import Notion
+db = DB()
+page = Page()
+notion = Notion()
 
-
-# credentials_path = os.path.join(os.path.join(os.getcwd(), '.credentials'), 'client_secrets.json')
-# calendar = GoogleCalendar('utsavdeep01@gmail.com', credentials_path=credentials_path)
+credentials_path = os.path.join(os.path.join(os.getcwd(), '.credentials'), 'client_secrets.json')
+calendar = GoogleCalendar('utsavdeep01@gmail.com', credentials_path=credentials_path)
 # event = Event(
 #     'Breakfast-2',
 #     start=(7 / Jun / 2022)[8:00],
@@ -26,6 +22,10 @@ from notion.page import Page
 # response = calendar.add_event(event)
 # print(response.id)
 
-db = DB()
-page = Page()
-# db.update_db(db_id=db.id, db_schema=)
+
+new_events = notion.get_events(event_type="new")
+for data in new_events.get('results'):
+    new_task = create_event_from_tasks(data)
+    new_event = TaskToEvent(new_task)
+    event = new_event.create_event()
+    response = calendar.add_event(event)

@@ -37,3 +37,25 @@ class Page(Signals, Properties):
         }
         return self.send_request(endpoint_url=self.notion_page_url + f"/{id}", request_type="patch",
                                  request_body=req_body)
+
+    def update_action(self, id, action_to_set=None):
+        if action_to_set is not None:
+            req_body = {
+                "properties": {
+                    'Action': {
+                        'select': {
+                            'name': action_to_set
+                        }
+                    }
+                }
+            }
+        else:
+            req_body = {
+                "properties": {
+                    "Action": {
+                        "select": None
+                    }
+                }
+            }
+        return self.send_request(endpoint_url=self.notion_page_url + f"/{id}", request_type="patch",
+                                 request_body=req_body)

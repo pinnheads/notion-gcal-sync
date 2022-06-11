@@ -41,7 +41,7 @@ class Properties:
             "filter": {
                 "property": "Action",
                 "select": {
-                    "equals": "Delete 🗑"
+                    "equals": "Delete"
                 }
             }
         }

@@ -36,6 +36,7 @@ def convert_datetime(date_str=None):
 class TaskToEvent:
     def __init__(self, task):
         self.url = task.get('notion_url')
+        self.event_id = task.get('gcal_id')[0] if task.get('gcal_id') else None
         self.notion_id = task.get('_id')
         self.notion_id_field = task.get('notion_id')
         self.action = task.get('action')
@@ -93,6 +94,7 @@ class TaskToEvent:
             color = randint(1, 10)
         if self.date is not None:
             return Event(summary=f"{self.title}",
+                         event_id=self.event_id,
                          start=convert_datetime(self.date.get('start')),
                          end=convert_datetime(self.date.get('end')) or None,
                          timezone="Asia/Calcutta",
@@ -103,6 +105,7 @@ class TaskToEvent:
                          default_reminders=False,
                          )
         return Event(summary=self.title,
+                     event_id=self.event_id,
                      start=convert_datetime(date_str=datetime.today().strftime('%Y-%m-%d')),
                      timezone="Asia/Calcutta",
                      description=f"notion_id: {self.notion_id}\nnotion_url: {self.url}\n{self.description}",

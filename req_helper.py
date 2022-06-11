@@ -7,7 +7,8 @@ from properties import Properties
 
 
 def print_in_console(url, response, req_body=None):
-    print(f"Endpoint Url -----> {url}")
+
+    print(f"\nEndpoint Url -----> {url}")
     if req_body is None:
         print("Request Body ------> {}")
     else:

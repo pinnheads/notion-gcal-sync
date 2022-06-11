@@ -24,6 +24,7 @@ class DB(Signals, Properties):
         return self.send_request(endpoint_url=self.notion_database_url+f"/{db_id}", request_type="get")
 
     def update_db(self, db_schema, db_id):
+        print(db_schema, db_id)
         return self.send_request(
             endpoint_url=self.notion_database_url+f"/{db_id}", request_type="patch", request_body=db_schema
         )

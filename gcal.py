@@ -50,9 +50,10 @@ class TaskToEvent:
         self.by_month = task.get('by_month')
         self.by_week_day = task.get('by_week_day')
         self.count = task.get('count')
+        self.task_category = task.get('task_category')
         self.description = ""
         self.frequency = task.get('frequency')
-        self.title = f"{task.get('title')} - {self.status}"
+        self.title = f"{task.get('title')} - {self.status}" if self.status is not None else task.get('title')
         for _ in task.get('description'):
             self.description += _
 
@@ -84,14 +85,20 @@ class TaskToEvent:
             return []
 
     def create_event(self) -> Event:
+        if self.task_category.lower() == "personal":
+            color = randint(1, 10)
+        elif self.task_category.lower() == "work":
+            color = 11
+        else:
+            color = randint(1, 10)
         if self.date is not None:
-            return Event(summary=self.title,
+            return Event(summary=f"{self.title}",
                          start=convert_datetime(self.date.get('start')),
                          end=convert_datetime(self.date.get('end')) or None,
                          timezone="Asia/Calcutta",
                          description=f"notion_id: {self.notion_id}\nnotion_url: {self.url}\n{self.description}",
                          recurrence=self.create_recurrence(),
-                         color_id=randint(1, 11),
+                         color_id=color,
                          reminders=self.create_reminder(),
                          default_reminders=False,
                          )
@@ -100,7 +107,7 @@ class TaskToEvent:
                      timezone="Asia/Calcutta",
                      description=f"notion_id: {self.notion_id}\nnotion_url: {self.url}\n{self.description}",
                      recurrence=self.create_recurrence(),
-                     color_id=randint(1, 11),
+                     color_id=color,
                      reminders=self.create_reminder(),
                      default_reminders=False,
                      )

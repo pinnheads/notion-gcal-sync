@@ -6,7 +6,6 @@ from notion.db import DB
 from notion.notion import Notion, create_event_from_tasks
 from notion.page import Page
 
-db = DB()
 page = Page()
 notion = Notion()
 

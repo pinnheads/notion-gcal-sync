@@ -51,7 +51,7 @@ class TaskToEvent:
         self.by_month = task.get('by_month')
         self.by_week_day = task.get('by_week_day')
         self.count = task.get('count')
-        self.task_category = task.get('task_category')
+        self.task_category = task.get('task_category') if task.get('task_category') is not None else "personal"
         self.description = ""
         self.frequency = task.get('frequency')
         self.title = f"{task.get('title')} - {self.status}" if self.status is not None else task.get('title')

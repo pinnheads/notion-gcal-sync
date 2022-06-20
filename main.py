@@ -97,4 +97,5 @@ if __name__ == "__main__":
     delete_events = notion.get_events("delete")["results"]
     delete_event_gcal(query_result=delete_events)
 
+    # Update Notion
     update_notion()

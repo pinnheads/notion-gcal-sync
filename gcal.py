@@ -46,6 +46,7 @@ def convert_datetime(date_str=None):
 
 class TaskToEvent:
     def __init__(self, task):
+        self.icon = task.get("icon") if task.get("icon") else ""
         self.url = task.get("notion_url")
         self.project = (
             f"{task.get('project/course')}: " if task.get("project/course") else ""
@@ -149,7 +150,7 @@ class TaskToEvent:
             color = randint(1, 10)
         if self.date is not None:
             return Event(
-                summary=f"{self.project}{self.title}",
+                summary=f"{self.project}{self.icon} {self.title}",
                 event_id=self.event_id,
                 start=convert_datetime(self.date.get("start")),
                 end=convert_datetime(self.date.get("end")) or None,
@@ -161,7 +162,7 @@ class TaskToEvent:
                 default_reminders=False,
             )
         return Event(
-            summary=f"{self.project}{self.title}",
+            summary=f"{self.project}{self.icon} {self.title}",
             event_id=self.event_id,
             start=convert_datetime(date_str=datetime.today().strftime("%Y-%m-%d")),
             timezone="Asia/Calcutta",

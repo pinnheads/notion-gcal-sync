@@ -141,7 +141,7 @@ class TaskToEvent:
         else:
             return []
 
-    def create_event(self) -> Event:
+    def create_event(self):
         if self.task_category.lower() == "personal":
             color = randint(1, 10)
         elif self.task_category.lower() == "work":
@@ -161,14 +161,4 @@ class TaskToEvent:
                 reminders=self.create_reminder(),
                 default_reminders=False,
             )
-        return Event(
-            summary=f"{self.project}{self.icon} {self.title}",
-            event_id=self.event_id,
-            start=convert_datetime(date_str=datetime.today().strftime("%Y-%m-%d")),
-            timezone="Asia/Calcutta",
-            description=f"notion_id: {self.notion_id}\nnotion_url: {self.url}\n{self.description}",
-            recurrence=self.create_recurrence(),
-            color_id=color,
-            reminders=self.create_reminder(),
-            default_reminders=False,
-        )
+        return None

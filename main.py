@@ -24,12 +24,15 @@ def create_event_gcal(query_result):
         new_event = TaskToEvent(new_task)
         # create event in gcal
         event = new_event.create_event()
-        # add event to calendar
-        response = calendar.add_event(event)
-        # update notion_id and gcal_id field in notion
-        page.update_gcal_notion_id(
-            id=new_task.get("_id"), gcal_id=response.id, notion_id=new_task.get("_id")
-        )
+        if event is not None:
+            # add event to calendar
+            response = calendar.add_event(event)
+            # update notion_id and gcal_id field in notion
+            page.update_gcal_notion_id(
+                id=new_task.get("_id"),
+                gcal_id=response.id,
+                notion_id=new_task.get("_id"),
+            )
 
 
 def get_event_gcal(event_id):
@@ -45,8 +48,10 @@ def update_event_gcal(query_result):
         new_event = TaskToEvent(new_task)
         # create event in gcal
         event = new_event.create_event()
-        calendar.update_event(event=event)
-        page.update_action(id=new_task.get("_id"))
+        if event is not None:
+            # add event to calendar
+            calendar.update_event(event=event)
+            page.update_action(id=new_task.get("_id"))
 
 
 def delete_event_gcal(query_result):
@@ -57,8 +62,9 @@ def delete_event_gcal(query_result):
         new_event = TaskToEvent(new_task)
         # create event in gcal
         event = new_event.create_event()
-        calendar.delete_event(event=event)
-        page.delete_page(id=new_task.get("_id"))
+        if event is not None:
+            calendar.delete_event(event=event)
+            page.delete_page(id=new_task.get("_id"))
 
 
 def update_notion():

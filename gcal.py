@@ -75,6 +75,7 @@ class TaskToEvent:
             if task.get("task_category") is not None
             else "personal"
         )
+        self.priority = task.get("priority") if task.get("priority") else "MEDIUM"
         self.description = ""
         self.frequency = task.get("frequency")
         self.title = (
@@ -141,9 +142,17 @@ class TaskToEvent:
         else:
             return []
 
+    def color(self):
+        if self.priority == "HIGH":
+            return 3
+        elif self.priority == "LOW":
+            return 1
+        else:
+            return 2
+
     def create_event(self):
         if self.task_category.lower() == "personal":
-            color = randint(1, 10)
+            color = self.color()
         elif self.task_category.lower() == "work":
             color = 11
         else:

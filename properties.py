@@ -123,6 +123,16 @@ class Properties:
                 "type": "select",
                 "select": {"options": [{"name": "DEFAULT", "color": "gray"}]},
             },
+            "Priority": {
+                "type": "select",
+                "select": {
+                    "options": [
+                        {"name": "HIGH", "color": "red"},
+                        {"name": "MID", "color": "yellow"},
+                        {"name": "LOW", "color": "green"},
+                    ]
+                },
+            },
         }
         self.create_db_schema = {
             "parent": self.db_parent_schema,

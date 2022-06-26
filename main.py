@@ -105,3 +105,5 @@ if __name__ == "__main__":
 
     # Update Notion
     update_notion()
+
+    # notion.update_db(db_schema=notion.update_db_schema, db_id=notion.get_db_id())

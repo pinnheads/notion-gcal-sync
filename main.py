@@ -73,6 +73,9 @@ def update_notion():
     todays_events = calendar.get_events(
         time_min=today, time_max=today, order_by="startTime", single_events=True
     )
+
+    db_id = notion.get_db_id()
+
     # update notion tasks with respective
     for event in todays_events:
         if event.description:
@@ -88,6 +91,26 @@ def update_notion():
                 }
             }
             page.update_page(id=pg_id, req_body=req_body)
+        else:
+            req_body = {
+                "parent": {"database_id": db_id},
+                "properties": {
+                    "Title": {"title": [{"text": {"content": event.summary}}]},
+                    "Status": {"select": {"name": "Backlog"}},
+                    "Date": {
+                        "date": {
+                            "start": event.start.strftime("%Y-%m-%dT%H:%M:%S"),
+                            "end": event.end.strftime("%Y-%m-%dT%H:%M:%S"),
+                        }
+                    },
+                    "Action": {"select": {"name": "Update"}},
+                    "Reminders": {"multi_select": [{"name": "Popup"}]},
+                    "Minutes before Popup Reminder": {"number": 10},
+                },
+            }
+            response = page.create_page(req_body=req_body)
+            page_id = response.get("id")
+            page.update_gcal_notion_id(id=page_id, notion_id=page_id, gcal_id=event.id)
 
 
 if __name__ == "__main__":

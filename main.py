@@ -99,8 +99,10 @@ def update_notion():
                     "Status": {"select": {"name": "Backlog"}},
                     "Date": {
                         "date": {
-                            "start": event.start.strftime("%Y-%m-%dT%H:%M:%S"),
-                            "end": event.end.strftime("%Y-%m-%dT%H:%M:%S"),
+                            "start": event.start.strftime(
+                                "%Y-%m-%dT%H:%M:%S.000+05:30"
+                            ),
+                            "end": event.end.strftime("%Y-%m-%dT%H:%M:%S.000+05:30"),
                         }
                     },
                     "Action": {"select": {"name": "Update"}},

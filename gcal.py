@@ -144,17 +144,17 @@ class TaskToEvent:
 
     def color(self):
         if self.priority == "HIGH":
-            return 3
+            return 6
         elif self.priority == "LOW":
             return 1
         else:
-            return 2
+            return 7
 
     def create_event(self):
         if self.task_category.lower() == "personal":
             color = self.color()
         elif self.task_category.lower() == "work":
-            color = 11
+            color = 4
         else:
             color = randint(1, 10)
         if self.date is not None:

@@ -76,13 +76,13 @@ def update_notion():
 
     db_id = notion.get_db_id()
 
-    # update notion tasks with respective
+    # update notion tasks with respective dates
     for event in todays_events:
         if event.description:
             pg_id = event.description.split("\n")[0].split(":")[1].replace(" ", "")
             req_body = {
                 "properties": {
-                    "Date": {
+                    "Last Occurence": {
                         "date": {
                             "start": str(event.start).replace(" ", "T"),
                             "end": str(event.end).replace(" ", "T"),
@@ -116,6 +116,9 @@ def update_notion():
 
 
 if __name__ == "__main__":
+    # Update Notion
+    update_notion()
+
     # get new events
     new_events = notion.get_events("new")["results"]
     create_event_gcal(query_result=new_events)
@@ -127,8 +130,5 @@ if __name__ == "__main__":
     # get events to delete
     delete_events = notion.get_events("delete")["results"]
     delete_event_gcal(query_result=delete_events)
-
-    # Update Notion
-    update_notion()
 
     # notion.update_db(db_schema=notion.update_db_schema, db_id=notion.get_db_id())

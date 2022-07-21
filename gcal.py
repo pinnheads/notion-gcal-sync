@@ -59,6 +59,7 @@ class TaskToEvent:
         self.reminders = task.get("reminders")
         self.status = task.get("status")
         self.date = task.get("date")
+        self.last_occurence = task.get("last_occurence")
         self.gcal_id_field = task.get("gcal_id")
         self.minutes_before_email_reminder = (
             task.get("minutes_before_email_reminder") or 60
@@ -164,7 +165,7 @@ class TaskToEvent:
                 start=convert_datetime(self.date.get("start")),
                 end=convert_datetime(self.date.get("end")) or None,
                 timezone="Asia/Calcutta",
-                description=f"notion_id: {self.notion_id}\nnotion_url: {self.url}\n{self.description}",
+                description=f"notion_id: {self.notion_id}\nnotion_url: {self.url}\n\n{self.description}",
                 recurrence=self.create_recurrence(),
                 color_id=color,
                 reminders=self.create_reminder(),
